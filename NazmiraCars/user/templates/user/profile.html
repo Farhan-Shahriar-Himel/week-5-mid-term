@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center mx-4 my-12 border border-black rounded-xl p-4 space-y-2">
+    <h1 class="text-6xl font-bold text-blue-900">Welcome {{owner.first_name}} </h1>
+    <h1 class="text-2xl">Full name: {{owner.first_name}} {{owner.last_name}} </h1>
+    <h1 class="text-2xl">Username: {{owner.username}} </h1>
+    <h1 class="text-2xl">Email: {{owner.email}} </h1>
+    <a href="{% url "edit_profile" %}" class="btn btn-warning">Edit Profile</a>
+    <br>
+    <a href="{% url "change_pass" %}" class="btn btn-error">Change Password</a>
+</div>
+
+<div class="text-center mt-8">
+    <h1 class="text-2xl font-extrabold">Total Results: {{cars | length}} </h1>
+</div>
+
+<div class="grid grid-cols-3 gap-4 p-4">
+    {% for car in cars %}
+    <div class="card w-96 bg-base-100 shadow-xl border border-black">
+        <figure class="px-10 pt-10">
+          <img src="{{car.picture.url}}" alt="Shoes" class="rounded-xl" />
+        </figure>
+        <div class="card-body items-center text-center">
+          <h2 class="card-title text-2xl font-bold"> {{car.brand}} {{car.name}} </h2>
+          <h2 class="font-bold">Price: <span class="text-red-500">{{car.price}}$</span> </h2>
+          <h2> {{car.description | truncatewords:10}} </h2>
+          <div class="card-actions">
+            <a href="{% url "view_more" car.id %}" class="btn btn-primary">View more</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

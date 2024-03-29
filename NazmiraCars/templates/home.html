@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="flex justify-around p-4 gap-4">
+    <div class="w-[48%] flex justify-center items-center border border-black rounded-xl p-4">
+        <div>
+            <h1 class="text-3xl my-2 font-bold">Explore Our Cars</h1>
+            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.</p>
+        </div>
+    </div>
+    <div class="w-[48%]">
+        <img class="border rounded-xl" src="{% static "base_img.jpeg" %}" alt="">
+    </div>
+</div>
+
+<div class='p-4 border border-black m-4 rounded-xl'>
+    <div class="p-4">
+        <h1 class="font-extrabold text-4xl">Choose Your Brand</h1>
+    </div>
+    <hr>
+    
+    <div class="grid grid-cols-6 gap-4 p-4">
+    {% for model in data %}
+        <div class="btn btn-success">
+            <a href="{% url "home_with_name" model.id %}" class="text-2xl">{{model}}</a>
+            {% comment %} <a href="" class="text-2xl">{{model}}</a> {% endcomment %}
+            {% comment %} <h1> {{model.slug}} </h1> {% endcomment %}
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+<div class="text-center mt-8">
+    <h1 class="text-2xl font-extrabold">Total Results: {{cars | length}} </h1>
+</div>
+
+<div class="grid grid-cols-3 gap-4 p-4">
+    {% for car in cars %}
+    <div class="card w-96 bg-base-100 shadow-xl border border-black">
+        <figure class="px-10 pt-10">
+          <img src="{{car.picture.url}}" alt="Shoes" class="rounded-xl" />
+        </figure>
+        <div class="card-body items-center text-center">
+          <h2 class="card-title text-2xl font-bold"> {{car.brand}} {{car.name}} </h2>
+          <h2 class="font-bold">Price: <span class="text-red-500">{{car.price}}$</span> </h2>
+          <h2> {{car.description | truncatewords:10}} </h2>
+          <div class="card-actions">
+            <a href="{% url "view_more"  car.id %}" class="btn btn-primary">View more</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

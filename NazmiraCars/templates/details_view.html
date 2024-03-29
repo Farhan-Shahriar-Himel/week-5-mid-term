@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="flex justify-center items-center px-20">
+    {% for car in cars %}
+    <div class="card bg-base-100 shadow-xl border border-black">
+        <figure class="px-10 pt-10">
+          <img src="{{car.picture.url}}" alt="loading.." class="rounded-xl" />
+        </figure>
+        <div class="card-body items-center text-center">
+          <h2 class="card-title text-2xl font-bold"> {{car.brand}} {{car.name}} </h2>
+          <h2 class="font-bold">Price: <span class="text-red-500">{{car.price}}$</span> </h2>
+          <h2> {{car.description}} </h2>
+          <h2>Quantity: {{car.quantity}} </h2>
+          {% if request.user.is_authenticated %}
+          <div class="card-actions">
+            <a href="{% url "buy_now" car.id %}" class="btn btn-primary">Buy now</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>    
+      {% endfor %}
+</div>
+
+<div class="flex flex-col gap-4 justify-center items-center my-8">
+  {% for comment in comments %}
+    <div class="text-center border border-black rounded-xl p-4 w-[50%]">
+      <h1> {{comment}} </h1>
+      <h1> Email: {{comment.email}} </h1>
+      <small>Commented On: {{comment.date}} </small>
+      <h1 class="border border-black rounded p-2">Description: {{comment.description}} </h1>
+    </div>
+  {% endfor %}
+</div>
+
+<div class="text-center mt-20">
+  <h1 class="text-4xl font-extrabold">Add comment</h1>
+</div>
+
+<div class="w-[50%] mx-auto">
+  <form action="" method="POST">
+    {% csrf_token %}
+    {{form|crispy}}
+    <input type="submit" value="Comment" class="btn btn-accent">
+  </form>
+</div>
+
+{% endblock content %}
